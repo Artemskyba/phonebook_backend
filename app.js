@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import "dotenv/config";
-import userRouter from "./routes/userRouter.js";
+import userRouter from "./routes/usersRouter.js";
 
 const app = express();
 
