@@ -7,7 +7,13 @@ export const findUserByEmail = async (email) => {
   return user;
 };
 
-const updateUserWithToken = async (id) => {
+export const findUserById = async (id) => {
+  const user = await User.findById(id);
+
+  return user;
+};
+
+export const updateUserWithToken = async (id) => {
   const { SECRET_KEY } = process.env;
 
   const token = jsonwebtoken.sign({ id }, SECRET_KEY);
@@ -15,7 +21,7 @@ const updateUserWithToken = async (id) => {
   const updatedUser = await User.findByIdAndUpdate(
     id,
     { token },
-    { new: true },
+    { new: true }
   );
 
   return updatedUser;
@@ -25,8 +31,11 @@ export const createUser = async (userData) => {
   const newUser = new User(userData);
   await newUser.hashPassword();
   await newUser.save();
-  const userWithToken = await updateUserWithToken(newUser.id)
+  const userWithToken = await updateUserWithToken(newUser.id);
 
-  return userWithToken
+  return userWithToken;
+};
 
+export const removeToken = async (id) => {
+  await User.findByIdAndUpdate(id, { token: "" });
 };
