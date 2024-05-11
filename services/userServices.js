@@ -39,3 +39,11 @@ export const createUser = async (userData) => {
 export const removeToken = async (id) => {
   await User.findByIdAndUpdate(id, { token: "" });
 };
+
+export async function updateUserAvatar(userID, newAvatar) {
+  return User.findByIdAndUpdate(
+      userID,
+      { avatarURL: newAvatar },
+      { new: true },
+  );
+}

@@ -7,6 +7,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    avatarURL: String,
 
     email: {
       type: String,
@@ -20,7 +21,7 @@ const userSchema = new Schema(
 
     token: String,
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 userSchema.methods.hashPassword = async function () {
@@ -28,10 +29,9 @@ userSchema.methods.hashPassword = async function () {
 };
 
 userSchema.methods.validatePassword = async function (password) {
+  const isPasswordCorrect = await bcrypt.compare(password, this.password);
 
-    const isPasswordCorrect = await bcrypt.compare(password, this.password)
-
-    return isPasswordCorrect;
+  return isPasswordCorrect;
 };
 
 export const User = model("user", userSchema);
